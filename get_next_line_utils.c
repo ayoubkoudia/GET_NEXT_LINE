@@ -6,79 +6,62 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:27:44 by akoudia           #+#    #+#             */
-/*   Updated: 2022/11/09 12:58:05 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/11/16 21:16:27 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"get_next_line.h"
+#include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (str[i])
-	{
+	while (s[i])
 		i++;
-	}
 	return (i);
 }
 
-void	*ft_calloc(size_t count, size_t size)
+char	*ft_strchr(const char *s, int c)
 {
-	void	*p;
-	size_t	i;
+	char	*str;
 
-	p = (void *) malloc(count * size);
-	if (p == 0)
-		return (0);
-	i = 0;
-	while (i < size * count)
-		*((char *)p + i++) = 0;
-	return (p);
+	str = (char *)s;
+	while (*str)
+	{
+		if (*str == (char)c)
+			return (str);
+		str++;
+	}
+	if (*str == (char)c)
+		return (str);
+	return (NULL);
 }
 
-char	*ft_strrchr(const char *str, int c)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	while (len >= 0 && str[len] != (unsigned char)c)
-		len--;
-	if (len == -1)
-		return (0);
-	return ((char *) &str[len]);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
+	size_t	j;
+	char	*str;
 
-	if (dst != src)
+	if (!s1)
 	{
-		i = 0;
-		while (i < n)
-		{
-			*((char *) dst + i) = *((char *)src + i);
-			i++;
-		}
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1[0] = '\0';
 	}
-	return (dst);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*result;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	result = malloc(len1 + len2 + 1);
-	if (result)
-	{
-		ft_memcpy(result, s1, len1);
-		ft_memcpy(result + len1, s2, len2 + 1);
-	}
-	return (result);
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	j = 0;
+	if (s1)
+		while (s1[++i] != '\0')
+			str[i] = s1[i];
+	while (s2[j] != '\0')
+		str[i++] = s2[j++];
+	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free(s1);
+	return (str);
 }

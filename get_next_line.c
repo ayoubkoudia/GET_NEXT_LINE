@@ -6,66 +6,109 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:26:40 by akoudia           #+#    #+#             */
-/*   Updated: 2022/11/13 14:38:35 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/11/16 21:37:55 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*store_next(char *store)
 {
-	char	*substr;
-	size_t	i;
+	int		i;
+	int		j;
+	char	*new_store;
 
 	i = 0;
-	if (!s)
+	while (store[i] && store[i] != '\n')
+		i++;
+	if (!store[i])
 		return (NULL);
-	if (start > ft_strlen(s))
-		return (ft_strdup(""));
-	if (start + len > ft_strlen(s))
-		len = ft_strlen(s) - start;
-	substr = malloc(sizeof(char) * (len + 1));
-	if (!substr)
+	new_store = (char *)malloc(sizeof(char) * (ft_strlen(store) - i));
+	if (!new_store)
 		return (NULL);
-	ft_memcpy(substr, s + start, len);
-	substr[len] = '\0';
-	return (substr);
+	i++;
+	j = 0;
+	while (store[i])
+		new_store[j++] = store[i++];
+	new_store[j] = '\0';
+	return (new_store);
 }
 
-char	*read_to_stash(int fd, char *rest)
+char	*ft_getline(char *bigline)
 {
-	int		r;
+	int		i;
+	char	*line;
+
+	i = 0;
+	if (!bigline[i])
+		return (NULL);
+	while (bigline[i] && bigline[i] != '\n')
+		i++;
+	line = malloc(sizeof(char) * i + 2);
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (bigline[i] && bigline[i] != '\n')
+	{
+		line[i] = bigline[i];
+		i++;
+	}
+	if (bigline[i] == '\n')
+	{
+		line[i] = bigline[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+char	*read_and_store(int fd, char *str)
+{
+	int		i;
 	char	*buffer;
 
-	r = 1;
+	i = 1;
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (0);
-	while (r > 0)
+	while (i > 0)
 	{
-		r = read(fd, buffer, BUFFER_SIZE);
-		if (r == -1)
+		i = read(fd, buffer, BUFFER_SIZE);
+		if (i == -1)
 			break ;
-		buffer[r] = '\0';
-		rest = ft_strjoin(rest, buffer);
-		if (ft_strchr(buffer, '\n'))
+		buffer[i] = '\0';
+		str = ft_strjoin(str, buffer);
+		if (ft_strchr(str, '\n'))
 			break ;
 	}
 	free(buffer);
-	return (rest);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*buff;
 	char		*line;
-	static char	*rest = NULL;
+	static char	*store;
+	char		*tmp;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (fd == -1 || BUFFER_SIZE <= 0)
+		return (0);
+	store = read_and_store(fd, store);
+	if (!store)
 		return (NULL);
-	buff = malloc (sizeof(char) * (BUFFER_SIZE + 1));
-    rest = read_to_stash(fd, rest);
-	if (!buff)
-		return (NULL);
-    return (line);
+	tmp = store;
+	line = ft_getline(tmp);
+	store = store_next(tmp);
+	free(tmp);
+	return (line);
 }
+
+// int main()
+// {
+// 	int fd;
+// 	fd = open("file.txt",O_RDONLY);
+// 	printf("%s",get_next_line(0));
+// 	printf("%s",get_next_line(1));
+// 	printf("%s",get_next_line(2));
+// 	printf("%s",get_next_line(3));
+// }
