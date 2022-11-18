@@ -6,35 +6,35 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:26:40 by akoudia           #+#    #+#             */
-/*   Updated: 2022/11/16 21:37:55 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/11/18 16:05:51 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*store_next(char *store)
+char	*save_next(char *bigline)
 {
 	int		i;
 	int		j;
 	char	*new_store;
 
 	i = 0;
-	while (store[i] && store[i] != '\n')
+	while (bigline[i] && bigline[i] != '\n')
 		i++;
-	if (!store[i])
+	if (!bigline[i])
 		return (NULL);
-	new_store = (char *)malloc(sizeof(char) * (ft_strlen(store) - i));
+	new_store = (char *)malloc(sizeof(char) * (ft_strlen(bigline) - i));
 	if (!new_store)
 		return (NULL);
 	i++;
 	j = 0;
-	while (store[i])
-		new_store[j++] = store[i++];
+	while (bigline[i])
+		new_store[j++] = bigline[i++];
 	new_store[j] = '\0';
 	return (new_store);
 }
 
-char	*ft_getline(char *bigline)
+char	*gline(char *bigline)
 {
 	int		i;
 	char	*line;
@@ -75,7 +75,11 @@ char	*read_and_store(int fd, char *str)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
-			break ;
+		{
+			free(buffer);
+			free(str);
+			return (0);
+		}
 		buffer[i] = '\0';
 		str = ft_strjoin(str, buffer);
 		if (ft_strchr(str, '\n'))
@@ -97,8 +101,8 @@ char	*get_next_line(int fd)
 	if (!store)
 		return (NULL);
 	tmp = store;
-	line = ft_getline(tmp);
-	store = store_next(tmp);
+	line = gline(tmp);
+	store = save_next(tmp);
 	free(tmp);
 	return (line);
 }
@@ -106,9 +110,11 @@ char	*get_next_line(int fd)
 // int main()
 // {
 // 	int fd;
+// 	fd = open("file1.txt",O_RDONLY);
 // 	fd = open("file.txt",O_RDONLY);
 // 	printf("%s",get_next_line(0));
 // 	printf("%s",get_next_line(1));
 // 	printf("%s",get_next_line(2));
-// 	printf("%s",get_next_line(3));
+// 	printf("%s\n",get_next_line(3));
+// 	printf("%s",get_next_line(4));
 // }
