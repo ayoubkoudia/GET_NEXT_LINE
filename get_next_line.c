@@ -6,7 +6,7 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:26:40 by akoudia           #+#    #+#             */
-/*   Updated: 2022/11/18 16:05:51 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:47:55 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*gline(char *bigline)
 	return (line);
 }
 
-char	*read_and_store(int fd, char *str)
+char	*reads(int fd, char *str)
 {
 	int		i;
 	char	*buffer;
@@ -92,17 +92,17 @@ char	*read_and_store(int fd, char *str)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*store;
+	static char	*save;
 	char		*tmp;
 
 	if (fd == -1 || BUFFER_SIZE <= 0)
 		return (0);
-	store = read_and_store(fd, store);
-	if (!store)
+	save = reads(fd, save);
+	if (!save)
 		return (NULL);
-	tmp = store;
+	tmp = save;
 	line = gline(tmp);
-	store = save_next(tmp);
+	save = save_next(tmp);
 	free(tmp);
 	return (line);
 }
@@ -111,10 +111,6 @@ char	*get_next_line(int fd)
 // {
 // 	int fd;
 // 	fd = open("file1.txt",O_RDONLY);
-// 	fd = open("file.txt",O_RDONLY);
-// 	printf("%s",get_next_line(0));
-// 	printf("%s",get_next_line(1));
-// 	printf("%s",get_next_line(2));
-// 	printf("%s\n",get_next_line(3));
-// 	printf("%s",get_next_line(4));
+// 	printf("%s",get_next_line(fd));
+// 	printf("%s",get_next_line(fd));
 // }
