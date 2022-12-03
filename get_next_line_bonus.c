@@ -6,7 +6,7 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:30:49 by akoudia           #+#    #+#             */
-/*   Updated: 2022/11/23 15:24:37 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/12/03 12:55:38 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,11 @@ char	*get_next_line(int fd)
 // int main()
 // {
 // 	int fd;
+// 	char *str;
+
 // 	fd = open("file1.txt",O_RDONLY);
-// 	printf("%s",get_next_line(fd));
-// 	printf("%s\n",get_next_line(fd));
-//  printf("%d",OPEN_MAX);
+// 	while ((str=get_next_line(fd)) && str  != NULL)
+// 	{
+// 	printf("%s", str);	
+// 	}
 // }
