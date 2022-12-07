@@ -6,7 +6,7 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:27:41 by akoudia           #+#    #+#             */
-/*   Updated: 2022/12/02 16:09:47 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/12/07 20:12:49 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE

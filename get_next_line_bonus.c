@@ -6,7 +6,7 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:30:49 by akoudia           #+#    #+#             */
-/*   Updated: 2022/12/03 12:55:38 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/12/07 22:12:35 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 	static char	*save[OPEN_MAX];
 	char		*tmp;
 
-	if (fd == -1 || BUFFER_SIZE <= 0)
+	if (fd == 1 || fd == 2 || fd == -1 || BUFFER_SIZE <= 0)
 		return (0);
 	save[fd] = reads(fd, save[fd]);
 	if (!save[fd])

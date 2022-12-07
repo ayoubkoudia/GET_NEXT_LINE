@@ -6,7 +6,7 @@
 /*   By: akoudia <akoudia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 11:26:40 by akoudia           #+#    #+#             */
-/*   Updated: 2022/12/02 16:08:39 by akoudia          ###   ########.fr       */
+/*   Updated: 2022/12/07 22:16:12 by akoudia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ char	*reads(int fd, char *str)
 		}
 		buffer[i] = '\0';
 		str = ft_strjoin(str, buffer);
+		if (ft_strchr(str, '\n'))
+			break ;
 	}
 	free(buffer);
 	return (str);
@@ -93,7 +95,7 @@ char	*get_next_line(int fd)
 	static char	*save;
 	char		*tmp;
 
-	if (fd == -1 || BUFFER_SIZE <= 0)
+	if (fd == 1 || fd == 2 || fd == -1 || BUFFER_SIZE <= 0)
 		return (0);
 	save = reads(fd, save);
 	if (!save)
@@ -107,12 +109,11 @@ char	*get_next_line(int fd)
 
 // int main()
 // {
-// 	int fd;
 // 	char *str;
 
-// 	fd = open("file1.txt",O_RDONLY);
-// 	while ((str=get_next_line(fd)) && str  != NULL)
+// 	open("file1.txt",O_RDONLY);
+// 	while ((str=get_next_line(3)) && str != NULL)
 // 	{
-// 	printf("%s", str);	
+// 	printf("%s", str1);	
 // 	}
 // }
