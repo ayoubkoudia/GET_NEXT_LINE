@@ -82,8 +82,6 @@ char	*reads(int fd, char *str)
 		}
 		buffer[i] = '\0';
 		str = ft_strjoin(str, buffer);
-		if (ft_strchr(str, '\n'))
-			break ;
 	}
 	free(buffer);
 	return (str);
